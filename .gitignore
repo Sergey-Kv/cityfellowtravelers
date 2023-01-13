@@ -1,0 +1,7 @@
+client/lib/Qt-Secret/*
+!client/lib/Qt-Secret/linkToTheLibraryWhichShouldBeHere.txt
+
+server/bin/privateKey.bin
+server/bin/adminPassword.bin
+server/lib/Qt-Secret/*
+!server/lib/Qt-Secret/linkToTheLibraryWhichShouldBeHere.txt
