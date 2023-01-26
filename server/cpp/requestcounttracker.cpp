@@ -27,7 +27,7 @@ bool RequestCountTracker::execute(Task task, Object object, QHostAddress ipAdres
         case Object::ConnectionsMax: { return *objectPointer > 1000; break; }
         case Object::RequestsToPlanATrip: { return *objectPointer > 100; break; }
         case Object::RequestsToSearchForADriver: { return *objectPointer > 200; break; }
-        case Object::RequestsToDeleteATrip: { return *objectPointer > 200; break; }
+        case Object::RequestsToDeleteATrip: { return *objectPointer > 300; break; }
         }
     }
     return false;
@@ -35,6 +35,10 @@ bool RequestCountTracker::execute(Task task, Object object, QHostAddress ipAdres
 
 void RequestCountTracker::reset() {
     requestsCountTable.clear();
+}
+
+int RequestCountTracker::getTheNumberOfUniqueIpAddressesConnectedInTheLastDay() {
+    return requestsCountTable.size();
 }
 
 RequestCountTracker::NumberOfRequestsToday::NumberOfRequestsToday()

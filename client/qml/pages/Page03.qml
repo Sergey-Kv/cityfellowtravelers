@@ -71,11 +71,13 @@ Rectangle {
             var toDepDateActMenuPoi = page3_optionsMenu.model.get(0).children[2].children[1].activeMenuPoint
             scm.planATripRequest(loaderOfMap_my.item.polyLine.path, //route
                                  page3_optionsMenu.model.get(0).children[1].children[0].children[1].text, //fromDepatrureTimeStr
+                                 page3_optionsMenu.model.get(0).children[1].children[0].children[1].activeMenuPoint == 0, //isFromTimeAmOrPm
                                  page3_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(fromDepDateActMenuPoi).day, //fromDepDateDay
                                  page3_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(fromDepDateActMenuPoi).month, //fromDepDateMonth
                                  page3_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(fromDepDateActMenuPoi).year, //fromDepDateYear
                                  page3_optionsMenu.model.get(0).children[1].children[0].children[0].activeMenuPoint == 1, //withToDepT
                                  page3_optionsMenu.model.get(0).children[2].children[0].children[1].text, //toDepatrureTimeStr
+                                 page3_optionsMenu.model.get(0).children[2].children[0].children[1].activeMenuPoint == 0, //isToTimeAmOrPm
                                  page3_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(toDepDateActMenuPoi).day, //toDepDateDay
                                  page3_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(toDepDateActMenuPoi).month, //toDepDateMonth
                                  page3_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(toDepDateActMenuPoi).year, //toDepDateYear
@@ -90,7 +92,13 @@ Rectangle {
     }
     Connections {
         target: fnc
-        function onUpdateDateAndTimeForExtraOpt(fromCheckOutTime_fq, toCheckOutTime_fq, day1_fq, day2_fq, day3_fq, day4_fq, month1_fq, month2_fq, month3_fq, month4_fq, year1_fq, year2_fq, year3_fq, year4_fq, datePlus2Days_fq, datePlus3Days_fq, withTransition_fq) {
+        function onUpdateDateAndTimeForExtraOpt(is24HourFormat_fq, fromCheckOutTime_fq, isFromTimeAmOrPm_fq, toCheckOutTime_fq, isToTimeAmOrPm_fq, day1_fq, day2_fq, day3_fq, day4_fq, month1_fq, month2_fq, month3_fq, month4_fq, year1_fq, year2_fq, year3_fq, year4_fq, datePlus2Days_fq, datePlus3Days_fq, withTransition_fq) {
+            if(!is24HourFormat_fq) {
+                page3_optionsMenu.model.get(0).children[1].children[0].children[1].activeMenuPoint = isFromTimeAmOrPm_fq ? 0 : 1
+                page3_optionsMenu.model.get(0).children[2].children[0].children[1].activeMenuPoint = isToTimeAmOrPm_fq ? 0 : 1
+                page3_optionsMenu.model.get(0).children[1].children[0].children[1].is24HourFormat = false
+                page3_optionsMenu.model.get(0).children[2].children[0].children[1].is24HourFormat = false
+            }
             page3_optionsMenu.model.get(0).children[1].children[0].children[1].text = fromCheckOutTime_fq
             page3_optionsMenu.model.get(0).children[2].children[0].children[1].text = toCheckOutTime_fq
             page3_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(0).day = day1_fq

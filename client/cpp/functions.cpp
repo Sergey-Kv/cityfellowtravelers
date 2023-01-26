@@ -2,8 +2,23 @@
 #include <cmath>
 #include <QPair>
 #include <QDateTime>
+#include <QLocale>
+#ifdef __ANDROID__
+#include <QAndroidJniObject>
+#include <QtAndroid>
+#endif // __ANDROID__
 
-Functions::Functions(QObject *parent) : QObject{parent} {}
+bool Functions::is24HourFormat = true;
+
+Functions::Functions(QObject *parent) : QObject{parent}
+{
+#ifdef __ANDROID__
+    is24HourFormat = static_cast<bool>(QAndroidJniObject::callStaticMethod<jboolean>("android/text/format/DateFormat",
+                                                                             "is24HourFormat",
+                                                                             "(Landroid/content/Context;)Z",
+                                                                             QtAndroid::androidActivity().object<jobject>()));
+#endif // __ANDROID__
+}
 
 double Functions::distBetwTwoCoordInMeters(const QGeoCoordinate &coord1, const QGeoCoordinate &coord2) {
     return sqrt(pow(abs(coord1.latitude() - coord2.latitude()) * 111250.0, 2.0) + pow(abs(coord1.longitude() - coord2.longitude()) * 40050000.0 * cos((coord1.latitude() + coord2.latitude()) / 2.0 * M_PI / 180.0) / 360.0, 2.0));
@@ -175,30 +190,31 @@ double Functions::polylineLengthInMeters(const QList<QGeoCoordinate> &polyline)
 
 void Functions::compressRouteFromInternet(const QGeoCoordinate &coordA, const QGeoCoordinate &coordB, const QList<QGeoCoordinate> &path)
 {
-    QList<QGeoCoordinate> newPath;
-    if(path.size() == 0) {
-        newPath.prepend(coordA);
-        newPath.append(coordB);
-        emit putTheRouteInTemporaryStorage(newPath);
-    }
-    QList<QGeoCoordinate>::const_iterator it = path.constBegin();
-    QList<QGeoCoordinate> copiedPath;
-    copiedPath.append(*it);
-    QPair<int, QList<QGeoCoordinate>::const_iterator> indexAndIteratorPairOfLastAbbrevCoord(0, copiedPath.constBegin());
-    newPath.append(*indexAndIteratorPairOfLastAbbrevCoord.second);
-    ++it;
-    for(; it != path.constEnd(); ++it) {
-        copiedPath.append(*it);
-        if((copiedPath.size() - 1) - indexAndIteratorPairOfLastAbbrevCoord.first > 1) {
-            indexAndIteratorPairOfLastAbbrevCoord.second = copiedPath.constEnd() - (copiedPath.size() - indexAndIteratorPairOfLastAbbrevCoord.first);
-/*!*/       if(isPolylineNeededToAbbrev(copiedPath, indexAndIteratorPairOfLastAbbrevCoord, 0.5) || true) //does not work well, therefore not used
-                newPath.append(*indexAndIteratorPairOfLastAbbrevCoord.second);
+    QList<QGeoCoordinate> compressedRoute;
+    if(true || path.size() < 3) // compression doesn't work well, so not used
+        compressedRoute = path;
+    else {
+        compressedRoute.append(path.first());
+        QList<QGeoCoordinate> tempRoute;
+        QPair<int, QList<QGeoCoordinate>::const_iterator> indexAndIteratorPairOfLastAbbrevCoord;
+        tempRoute.append(path.first());
+        int indexOfLastAbbrevCoord = 0;
+        QList<QGeoCoordinate>::const_iterator pathIterator = path.constBegin() + 1;
+        for(int i = 1; i < path.size(); ++i, ++pathIterator) {
+            tempRoute.append(path.at(i));
+            if(i - indexOfLastAbbrevCoord < 2)
+                continue;
+            indexAndIteratorPairOfLastAbbrevCoord = QPair<int, QList<QGeoCoordinate>::const_iterator>(indexOfLastAbbrevCoord, tempRoute.constEnd() - (tempRoute.size() - indexOfLastAbbrevCoord));
+            if(isPolylineNeededToAbbrev(tempRoute, indexAndIteratorPairOfLastAbbrevCoord, 0.5)) {
+                indexOfLastAbbrevCoord = indexAndIteratorPairOfLastAbbrevCoord.first;
+                compressedRoute.append(*indexAndIteratorPairOfLastAbbrevCoord.second);
+            }
         }
+        compressedRoute.append(path.last());
     }
-    newPath.append(copiedPath.last());
-    newPath.prepend(coordA);
-    newPath.append(coordB);
-    emit putTheRouteInTemporaryStorage(newPath);
+    compressedRoute.prepend(coordA);
+    compressedRoute.append(coordB);
+    emit putTheRouteInTemporaryStorage(compressedRoute);
 }
 
 void Functions::getDateAndTimeForExtraOpt()
@@ -207,6 +223,16 @@ void Functions::getDateAndTimeForExtraOpt()
     int currentHour = currentDT.time().hour();
     int currentHourPlus1Hour = currentDT.time().addSecs(3600).hour();
     int currentMinute = currentDT.time().minute();
+    bool isFromTimeAmOrPm;
+    bool isToTimeAmOrPm;
+    if(!is24HourFormat) {
+        isFromTimeAmOrPm = currentHour < 12;
+        if(!isFromTimeAmOrPm)
+            currentHour -= 12;
+        isToTimeAmOrPm = currentHourPlus1Hour < 12;
+        if(!isToTimeAmOrPm)
+            currentHourPlus1Hour -= 12;
+    }
     QString strCurrentHour = QString::number(currentHour);
     QString strCurrentHourPlus1Hour = QString::number(currentHourPlus1Hour);
     QString strCurrentMinute = QString::number(currentMinute);
@@ -215,7 +241,6 @@ void Functions::getDateAndTimeForExtraOpt()
     if(currentMinute < 10) strCurrentMinute = "0" + strCurrentMinute;
     QString fromCheckOutTime = strCurrentHour + ":" + strCurrentMinute;
     QString toCheckOutTime = strCurrentHourPlus1Hour + ":" + strCurrentMinute;
-
     int day1 = currentDT.date().day();
     int day2 = currentDT.date().addDays(1).day();
     int day3 = currentDT.date().addDays(2).day();
@@ -228,27 +253,58 @@ void Functions::getDateAndTimeForExtraOpt()
     int year2 = currentDT.date().addDays(1).year();
     int year3 = currentDT.date().addDays(2).year();
     int year4 = currentDT.date().addDays(3).year();
-    QString strDay3 = QString::number(day3);
-    QString strDay4 = QString::number(day4);
-    QString strMonth3 = QString::number(month3);
-    QString strMonth4 = QString::number(month4);
-    QString strYear3 = QString::number(year3);
-    QString strYear4 = QString::number(year4);
-    if(day3 < 10) strDay3 = "0" + strDay3;
-    if(day4 < 10) strDay4 = "0" + strDay4;
-    if(month3 < 10) strMonth3 = "0" + strMonth3;
-    if(month4 < 10) strMonth4 = "0" + strMonth4;
-    QString datePlus2Days = strDay3 + "." + strMonth3 + "." + strYear3;
-    QString datePlus3Days = strDay4 + "." + strMonth4 + "." + strYear4;
-    emit updateDateAndTimeForExtraOpt(fromCheckOutTime, toCheckOutTime, day1, day2, day3, day4, month1, month2, month3, month4, year1, year2, year3, year4, datePlus2Days, datePlus3Days, currentHourPlus1Hour < currentHour);
+    QString datePlus2Days = createStrDate(day3, month3, year3);
+    QString datePlus3Days = createStrDate(day4, month4, year4);
+    emit updateDateAndTimeForExtraOpt(is24HourFormat, fromCheckOutTime, isFromTimeAmOrPm, toCheckOutTime, isToTimeAmOrPm, day1, day2, day3, day4, month1, month2, month3, month4, year1, year2, year3, year4, datePlus2Days, datePlus3Days, currentHourPlus1Hour < currentHour);
 }
 
-quint32 Functions::localDateAndTimeStrToMinSinceEpoch(const QString &timeStr, int day, int month, int year)
+QString Functions::createStrDate(int day, int month, int year)
+{
+    QString strDay = QString::number(day);
+    QString strMonth;
+    if(QLocale().language() == QLocale::Russian) {
+        if(month == 1) strMonth = "янв";
+        else if(month == 2) strMonth = "фев";
+        else if(month == 3) strMonth = "мар";
+        else if(month == 4) strMonth = "апр";
+        else if(month == 5) strMonth = "мая";
+        else if(month == 6) strMonth = "июня";
+        else if(month == 7) strMonth = "июля";
+        else if(month == 8) strMonth = "авг";
+        else if(month == 9) strMonth = "сен";
+        else if(month == 10) strMonth = "окт";
+        else if(month == 11) strMonth = "ноя";
+        else if(month == 12) strMonth = "дек";
+    }
+    else {
+        if(month == 1) strMonth = "Jan";
+        else if(month == 2) strMonth = "Feb";
+        else if(month == 3) strMonth = "Mar";
+        else if(month == 4) strMonth = "Apr";
+        else if(month == 5) strMonth = "May";
+        else if(month == 6) strMonth = "June";
+        else if(month == 7) strMonth = "July";
+        else if(month == 8) strMonth = "Aug";
+        else if(month == 9) strMonth = "Sep";
+        else if(month == 10) strMonth = "Oct";
+        else if(month == 11) strMonth = "Nov";
+        else if(month == 12) strMonth = "Dec";
+    }
+    QString strYear = QString::number(year);
+    if(QLocale().language() == QLocale::Russian)
+        return strDay + " " + strMonth + " " + strYear;
+    else
+        return strMonth + " " + strDay + " " + strYear;
+}
+
+quint32 Functions::localDateAndTimeStrToMinSinceEpoch(const QString &timeStr, bool isTimeAmOrPm, int day, int month, int year)
 {
     QString variedVariable;
     variedVariable.push_back(timeStr.at(0));
     variedVariable.push_back(timeStr.at(1));
     int hour = variedVariable.toInt();
+    if(!is24HourFormat && !isTimeAmOrPm)
+        hour += 12;
     variedVariable.clear();
     variedVariable.push_back(timeStr.at(3));
     variedVariable.push_back(timeStr.at(4));

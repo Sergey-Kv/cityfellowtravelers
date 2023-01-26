@@ -6,7 +6,7 @@
    c1_5_  - show this message on the screen
     1_6   - your data is incorrect
     2_3   - incorrect administrator password
-    2_4   - server is runninng
+    2_4_  - take the stats
    c10_1_ - server ip address has changed, set a new one and repeat the request to plan a trip
     10_2  - too many requests to plan a trip today from your ip address
     10_3  - error on server: value "lastDriversTripId" not found in database
@@ -90,9 +90,11 @@ DataHandler::DataHandler()
     minimumAllowedMinutes = currentMinSinceEpoch - 1440;
     maximumAllowedMinutes = currentMinSinceEpoch + 1440 * 7;
 
+    statistics.prepend(forStatistics());
+
     QFileInfo checkFile3(pathToDatabase);
     bool fileExists3 = checkFile3.exists() && checkFile3.isFile();
-    db = QSqlDatabase::addDatabase("QSQLITE"); //QPSQL //QODBC
+    db = QSqlDatabase::addDatabase("QSQLITE"); //QSQLITE //QPSQL //QODBC
     //db.setHostName("127.0.0.1");
     db.setDatabaseName(pathToDatabase);
     //db.setUserName("postgres");
@@ -172,7 +174,7 @@ void DataHandler::handleTheRequest(QDataStream &inOfClientDataBlock, QHostAddres
     quint8 operationCode;
     inOfClientDataBlock >> operationCode;
     switch(operationCode) {
-    case 2: { handleCode2(inOfClientDataBlock, outOfDataBlock); break; }
+    case 2: { handleCode2(inOfClientDataBlock, requestCountTracker, outOfDataBlock); break; }
     case 10: { handleCode10(inOfClientDataBlock, ipAddress, requestCountTracker, outOfDataBlock); break; }
     case 11: { handleCode11(inOfClientDataBlock, ipAddress, requestCountTracker, outOfDataBlock); break; }
     case 12: { handleCode12(inOfClientDataBlock, ipAddress, requestCountTracker, outOfDataBlock); break; }
@@ -181,7 +183,7 @@ void DataHandler::handleTheRequest(QDataStream &inOfClientDataBlock, QHostAddres
     }
 }
 
-void DataHandler::handleCode2(QDataStream &inOfClientDataBlock, QDataStream &outOfDataBlock)
+void DataHandler::handleCode2(QDataStream &inOfClientDataBlock, RequestCountTracker &requestCountTracker, QDataStream &outOfDataBlock)
 {
     qint64 password;
     inOfClientDataBlock >> password;
@@ -191,8 +193,27 @@ void DataHandler::handleCode2(QDataStream &inOfClientDataBlock, QDataStream &out
     }
     bool checkOrStop;
     inOfClientDataBlock >> checkOrStop;
-    if(checkOrStop)
-        outOfDataBlock << quint8(2) << quint8(4);
+    if(checkOrStop) {
+        outOfDataBlock << quint8(2) << quint8(4) << quint8(statistics.size());
+        for(QList<forStatistics>::const_iterator it = statistics.constBegin(); it != statistics.constEnd(); ++it) {
+            outOfDataBlock << it->numberOfRequestsToCreateATripRejectedDueToExceedingTheDailyLimit
+                           << it->numberOfRequestsToCreateATrip
+                           << it->numberOfRequestsToCreateATripThatEndedSuccessfully
+                           << it->numberOfRequestsToSearchForADriverRejectedDueToExceedingTheDailyLimit
+                           << it->numberOfRequestsToSearchForADriver
+                           << it->numberOfRequestsToSearchForADriverThatEndedSuccessfullyAndWhereSomethingWasFound
+                           << it->numberOfRequestsToSearchForADriverThatEndedSuccessfullyAndWhereNothingWasFound
+                           << it->numberOfRequestsToDeleteATripRejectedDueToExceedingTheDailyLimit
+                           << it->numberOfRequestsToDeleteATrip
+                           << it->numberOfRequestsToCheckTouAndPp
+                           << it->numberOfConnectionsExceedingTheDailyMaxLimit
+                           << it->numberOfConnectionsExceedingTheDailyLimit;
+            if(it == statistics.constBegin())
+                outOfDataBlock << quint32(requestCountTracker.getTheNumberOfUniqueIpAddressesConnectedInTheLastDay());
+            else
+                outOfDataBlock << it->numberOfUniqueConnectedIpAddresses;
+        }
+    }
     else
         QCoreApplication::quit();
 }
@@ -203,8 +224,10 @@ void DataHandler::handleCode10(QDataStream &inOfClientDataBlock, QHostAddress ip
                                    RequestCountTracker::Object::RequestsToPlanATrip,
                                    ipAddress)) {
         outOfDataBlock << quint8(10) << quint8(2);
+        ++(statistics.first().numberOfRequestsToCreateATripRejectedDueToExceedingTheDailyLimit);
         return;
     }
+    ++(statistics.first().numberOfRequestsToCreateATrip);
     dataForPlanATripRequest data;
     inOfClientDataBlock >> data.routeCoordNumber;
     if(data.routeCoordNumber > 50000) {
@@ -284,6 +307,7 @@ void DataHandler::handleCode10(QDataStream &inOfClientDataBlock, QHostAddress ip
                    << data.comment
                    << data.name
                    << data.contacts;
+    ++(statistics.first().numberOfRequestsToCreateATripThatEndedSuccessfully);
 }
 
 void DataHandler::handleCode11(QDataStream &inOfClientDataBlock, QHostAddress ipAddress, RequestCountTracker &requestCountTracker, QDataStream &outOfDataBlock)
@@ -292,8 +316,10 @@ void DataHandler::handleCode11(QDataStream &inOfClientDataBlock, QHostAddress ip
                                    RequestCountTracker::Object::RequestsToSearchForADriver,
                                    ipAddress)) {
         outOfDataBlock << quint8(11) << quint8(2);
+        ++(statistics.first().numberOfRequestsToSearchForADriverRejectedDueToExceedingTheDailyLimit);
         return;
     }
+    ++(statistics.first().numberOfRequestsToSearchForADriver);
     dataForSearchForADriverRequest data;
     inOfClientDataBlock >> data.markerA.latit >> data.markerA.longit
             >> data.markerB.latit >> data.markerB.longit
@@ -366,6 +392,10 @@ void DataHandler::handleCode11(QDataStream &inOfClientDataBlock, QHostAddress ip
                             << it2->name
                             << it2->contacts;
     }
+    if(numberOfMatches)
+        ++(statistics.first().numberOfRequestsToSearchForADriverThatEndedSuccessfullyAndWhereSomethingWasFound);
+    else
+        ++(statistics.first().numberOfRequestsToSearchForADriverThatEndedSuccessfullyAndWhereNothingWasFound);
 }
 
 void DataHandler::handleCode12(QDataStream &inOfClientDataBlock, QHostAddress ipAddress, RequestCountTracker &requestCountTracker, QDataStream &outOfDataBlock)
@@ -374,8 +404,10 @@ void DataHandler::handleCode12(QDataStream &inOfClientDataBlock, QHostAddress ip
                                    RequestCountTracker::Object::RequestsToDeleteATrip,
                                    ipAddress)) {
         outOfDataBlock << quint8(12) << quint8(2);
+        ++(statistics.first().numberOfRequestsToDeleteATripRejectedDueToExceedingTheDailyLimit);
         return;
     }
+    ++(statistics.first().numberOfRequestsToDeleteATrip);
     dataForDeleteATripRequest data;
     inOfClientDataBlock >> data.tripId
             >> data.deleteCode;
@@ -417,6 +449,7 @@ void DataHandler::handleCode12(QDataStream &inOfClientDataBlock, QHostAddress ip
 
 void DataHandler::handleCode13(QDataStream &inOfClientDataBlock, QDataStream &outOfDataBlock)
 {
+    ++(statistics.first().numberOfRequestsToCheckTouAndPp);
     dataForCheckTheAcceptanceVersion data;
     inOfClientDataBlock >> data.version;
     if(data.version == touAndPp.version)
@@ -431,6 +464,22 @@ void DataHandler::handleCode13(QDataStream &inOfClientDataBlock, QDataStream &ou
                        << touAndPp.touText_ru
                        << touAndPp.ppHeader_ru
                        << touAndPp.ppText_ru;
+}
+
+void DataHandler::editStatistics(quint32 numberOfUniqueConnectedIpAddresses)
+{
+    statistics.first().numberOfUniqueConnectedIpAddresses = numberOfUniqueConnectedIpAddresses;
+    while(statistics.size() > 10)
+        statistics.removeLast();
+    statistics.prepend(forStatistics());
+}
+
+void DataHandler::incrementNumberOfConnectionsExceedingTheDailyLimit(bool isMaxLimit)
+{
+    if(isMaxLimit)
+        ++(statistics.first().numberOfConnectionsExceedingTheDailyMaxLimit);
+    else
+        ++(statistics.first().numberOfConnectionsExceedingTheDailyLimit);
 }
 
 void DataHandler::clearTheOldData()
@@ -470,3 +519,18 @@ DataHandler::~DataHandler() {
     delete query;
     db.close();
 }
+
+DataHandler::forStatistics::forStatistics() : numberOfRequestsToCreateATripRejectedDueToExceedingTheDailyLimit(0),
+    numberOfRequestsToCreateATrip(0),
+    numberOfRequestsToCreateATripThatEndedSuccessfully(0),
+    numberOfRequestsToSearchForADriverRejectedDueToExceedingTheDailyLimit(0),
+    numberOfRequestsToSearchForADriver(0),
+    numberOfRequestsToSearchForADriverThatEndedSuccessfullyAndWhereSomethingWasFound(0),
+    numberOfRequestsToSearchForADriverThatEndedSuccessfullyAndWhereNothingWasFound(0),
+    numberOfRequestsToDeleteATripRejectedDueToExceedingTheDailyLimit(0),
+    numberOfRequestsToDeleteATrip(0),
+    numberOfRequestsToCheckTouAndPp(0),
+    numberOfConnectionsExceedingTheDailyMaxLimit(0),
+    numberOfConnectionsExceedingTheDailyLimit(0),
+    numberOfUniqueConnectedIpAddresses(0)
+{}

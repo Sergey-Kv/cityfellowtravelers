@@ -34,9 +34,9 @@ android {
      * Changing them manually might break the compilation!
      *******************************************************/
 
-    compileSdkVersion androidCompileSdkVersion.toInteger()
+    compileSdkVersion 33//androidCompileSdkVersion.toInteger()
 
-    buildToolsVersion '30.0.2'
+    buildToolsVersion '33.0.1'//'30.0.2'
 
     sourceSets {
         main {
@@ -71,7 +71,7 @@ android {
 
     defaultConfig {
         //resConfig "en"
-        minSdkVersion = qtMinSdkVersion
-        targetSdkVersion = qtTargetSdkVersion
+        minSdkVersion = 21//qtMinSdkVersion
+        targetSdkVersion = 33//qtTargetSdkVersion
     }
 }

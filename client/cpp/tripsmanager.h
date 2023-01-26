@@ -63,6 +63,13 @@ private:
     QGeoCoordinate markerB;
     QVector<foundTrip> foundTrips;
 
+    struct boolAndQStringPointer
+    {
+        boolAndQStringPointer(bool objectWithSpaces, QString *objectPointer);
+        bool objectWithSpaces;
+        QString *objectPointer;
+    };
+
     template<typename T>
     static QString generateTextForTripElement(const T &trip, const QDate &currDate);
     static QString intToTwoCharQString(int number);

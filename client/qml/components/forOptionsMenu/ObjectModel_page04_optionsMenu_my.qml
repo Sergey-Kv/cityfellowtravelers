@@ -117,6 +117,8 @@ ObjectModel {
     Item { z: 1; width: page4_optionsMenu.width; height: pr.sectionHeadingTopMargin }
     function hideAllMenus() {
         children[0].children[1].children[0].children[0].isDropdownMenuOpen = false
+        children[0].children[1].children[0].children[1].isDropdownMenuOpen = false
+        children[0].children[2].children[0].children[1].isDropdownMenuOpen = false
         children[0].children[1].children[1].isDropdownMenuOpen = false
         children[0].children[2].children[1].isDropdownMenuOpen = false
     }

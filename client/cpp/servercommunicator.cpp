@@ -50,7 +50,7 @@ ServerCommunicator::ServerCommunicator(TripsManager *tmnPointer, TouAndPpManager
     connect(&serverResponseWaitingTimer, SIGNAL(timeout()), this, SLOT(slotServerResponseWaitingTimerAlarm()));
 }
 
-void ServerCommunicator::planATripRequest(const QList<QGeoCoordinate> &route, const QString &fromDepatrureTimeStr, int fromDepDateDay, int fromDepDateMonth, int fromDepDateYear, bool withToDepT, const QString &toDepatrureTimeStr, int toDepDateDay, int toDepDateMonth, int toDepDateYear, const QString &emptySeatsStr, int currencyNumber, const QString &estimatedPrice, const QString &comment, const QString &name, const QString &contacts, bool termsAcceped)
+void ServerCommunicator::planATripRequest(const QList<QGeoCoordinate> &route, const QString &fromDepatrureTimeStr, bool isFromTimeAmOrPm, int fromDepDateDay, int fromDepDateMonth, int fromDepDateYear, bool withToDepT, const QString &toDepatrureTimeStr, bool isToTimeAmOrPm, int toDepDateDay, int toDepDateMonth, int toDepDateYear, const QString &emptySeatsStr, int currencyNumber, const QString &estimatedPrice, const QString &comment, const QString &name, const QString &contacts, bool termsAcceped)
 {
     if(tmnPointer->getMyTripCount() >= 20) {
         emit errorSenderInQml(true, 10, 1);
@@ -64,10 +64,10 @@ void ServerCommunicator::planATripRequest(const QList<QGeoCoordinate> &route, co
         emit errorSenderInQml(true, 10, 2);
         return;
     }
-    quint32 fromTime = Functions::localDateAndTimeStrToMinSinceEpoch(fromDepatrureTimeStr, fromDepDateDay, fromDepDateMonth, fromDepDateYear);
+    quint32 fromTime = Functions::localDateAndTimeStrToMinSinceEpoch(fromDepatrureTimeStr, isFromTimeAmOrPm, fromDepDateDay, fromDepDateMonth, fromDepDateYear);
     quint32 toTime;
     if(withToDepT)
-        toTime = Functions::localDateAndTimeStrToMinSinceEpoch(toDepatrureTimeStr, toDepDateDay, toDepDateMonth, toDepDateYear);
+        toTime = Functions::localDateAndTimeStrToMinSinceEpoch(toDepatrureTimeStr, isToTimeAmOrPm, toDepDateDay, toDepDateMonth, toDepDateYear);
     else
         toTime = fromTime;
     quint32 currMinSinceEpoch = QDateTime::currentSecsSinceEpoch() / 60;
@@ -121,7 +121,7 @@ void ServerCommunicator::planATripRequest(const QList<QGeoCoordinate> &route, co
     tryToSendData(10000);
 }
 
-void ServerCommunicator::searchForADriverRequest(const QGeoCoordinate &markerA, const QGeoCoordinate &markerB, const QString &fromDepatrureTimeStr, int fromDepDateDay, int fromDepDateMonth, int fromDepDateYear, bool withToDepT, const QString &toDepatrureTimeStr, int toDepDateDay, int toDepDateMonth, int toDepDateYear, const QString &numberOfPeopleStr, int searchRadius, bool termsAcceped)
+void ServerCommunicator::searchForADriverRequest(const QGeoCoordinate &markerA, const QGeoCoordinate &markerB, const QString &fromDepatrureTimeStr, bool isFromTimeAmOrPm, int fromDepDateDay, int fromDepDateMonth, int fromDepDateYear, bool withToDepT, const QString &toDepatrureTimeStr, bool isToTimeAmOrPm, int toDepDateDay, int toDepDateMonth, int toDepDateYear, const QString &numberOfPeopleStr, int searchRadius, bool termsAcceped)
 {
     if(fromDepatrureTimeStr.size() != 5) {
         emit errorSenderInQml(true, 11, 1);
@@ -131,10 +131,10 @@ void ServerCommunicator::searchForADriverRequest(const QGeoCoordinate &markerA, 
         emit errorSenderInQml(true, 11, 2);
         return;
     }
-    quint32 fromTime = Functions::localDateAndTimeStrToMinSinceEpoch(fromDepatrureTimeStr, fromDepDateDay, fromDepDateMonth, fromDepDateYear);
+    quint32 fromTime = Functions::localDateAndTimeStrToMinSinceEpoch(fromDepatrureTimeStr, isFromTimeAmOrPm, fromDepDateDay, fromDepDateMonth, fromDepDateYear);
     quint32 toTime;
     if(withToDepT)
-        toTime = Functions::localDateAndTimeStrToMinSinceEpoch(toDepatrureTimeStr, toDepDateDay, toDepDateMonth, toDepDateYear);
+        toTime = Functions::localDateAndTimeStrToMinSinceEpoch(toDepatrureTimeStr, isToTimeAmOrPm, toDepDateDay, toDepDateMonth, toDepDateYear);
     else
         toTime = fromTime;
     quint32 currMinSinceEpoch = QDateTime::currentSecsSinceEpoch() / 60;

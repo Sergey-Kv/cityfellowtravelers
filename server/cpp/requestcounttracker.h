@@ -12,6 +12,7 @@ public:
     enum class Object {Connections, ConnectionsMax, RequestsToPlanATrip, RequestsToSearchForADriver, RequestsToDeleteATrip};
     bool execute(Task task, Object object, QHostAddress ipAdress);
     void reset();
+    int getTheNumberOfUniqueIpAddressesConnectedInTheLastDay();
 
 private:
     struct NumberOfRequestsToday

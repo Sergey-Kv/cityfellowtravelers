@@ -10,7 +10,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick LinguistTools Network Positioning)
+if(ANDROID)
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS AndroidExtras)
+endif()
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick LinguistTools Network Positioning)
+if(ANDROID)
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS AndroidExtras)
+endif()
 
 set(TS_FILES i18n/city_fellow_travelers_en.ts i18n/city_fellow_travelers_ru.ts)
 
@@ -28,9 +34,9 @@ set(PROJECT_SOURCES
     ${TS_FILES}
 )
 
-if(ANDROID)
-    include(/home/sergey/android/android_openssl/CMakeLists.txt)
-endif()
+#if(ANDROID)
+#    include(/home/sergey/android/android_openssl/CMakeLists.txt)
+#endif()
 
 add_subdirectory(lib/Qt-Secret)
 
@@ -48,7 +54,6 @@ else()
             ${PROJECT_SOURCES}
         )
     set(ANDROID_PACKAGE_SOURCE_DIR ${PROJECT_SOURCE_DIR}/android CACHE INTERNAL "")
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(city_fellow_travelers
           ${PROJECT_SOURCES}
@@ -60,6 +65,9 @@ endif()
 
 target_link_libraries(city_fellow_travelers
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Positioning)
+if(ANDROID)
+    target_link_libraries(city_fellow_travelers PRIVATE Qt${QT_VERSION_MAJOR}::AndroidExtras)
+endif()
 target_link_libraries(city_fellow_travelers PUBLIC Qt-Secret)
 
 set_target_properties(city_fellow_travelers PROPERTIES

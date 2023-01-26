@@ -55,8 +55,10 @@ void NetworkConnector::slotNewConnection() {
     connect(clientSocket, SIGNAL(disconnected()), this, SLOT(slotDisconnected()));
     if(requestCountTracker.execute(RequestCountTracker::Task::IncrementAndCheck,
                              RequestCountTracker::Object::ConnectionsMax,
-                             clientSocket->peerAddress()))
+                             clientSocket->peerAddress())) {
+        handler.incrementNumberOfConnectionsExceedingTheDailyLimit(true);
         clientSocket->disconnectFromHost();
+    }
 }
 
 void NetworkConnector::slotReadyRead() {
@@ -89,8 +91,10 @@ void NetworkConnector::slotReadyRead() {
     QByteArray aesKey = rsaEncr.decode(encodedAesKey, privateKey);
     if(requestCountTracker.execute(RequestCountTracker::Task::Check,
                              RequestCountTracker::Object::Connections,
-                             clientSocket->peerAddress()))
+                             clientSocket->peerAddress())) {
+        handler.incrementNumberOfConnectionsExceedingTheDailyLimit(false);
         outOfDataBlock << quint8(1) << quint8(2);
+    }
     else {
         QByteArray encodedClientDataBlock;
         inOfClientSocket >> encodedClientDataBlock;
@@ -121,6 +125,7 @@ void NetworkConnector::slotEveryDayTimerAlarm() {
     quint32 currentMinSinceEpoch = QDateTime::currentSecsSinceEpoch() / 60;
     handler.minimumAllowedMinutes = currentMinSinceEpoch - 1440;
     handler.maximumAllowedMinutes = currentMinSinceEpoch + 1440 * 7;
+    handler.editStatistics(requestCountTracker.getTheNumberOfUniqueIpAddressesConnectedInTheLastDay());
     requestCountTracker.reset();
     handler.clearTheOldData();
 }

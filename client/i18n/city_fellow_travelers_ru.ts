@@ -2,119 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru">
 <context>
-    <name>DigitalSignaturePage</name>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="25"/>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="45"/>
-        <source>Private key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="25"/>
-        <source>Public key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="26"/>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="53"/>
-        <source>Text to sign:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="26"/>
-        <source>Text to check sign:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="27"/>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="61"/>
-        <source>Signed text:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="27"/>
-        <source>Result:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="34"/>
-        <source>Sign message</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/DigitalSignaturePage.qml" line="35"/>
-        <source>Check sign</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>EncryptDecryptPage</name>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="25"/>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="45"/>
-        <source>Public key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="25"/>
-        <source>Private key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="26"/>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="53"/>
-        <source>Text to encrypt:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="26"/>
-        <source>Text to decrypt:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="27"/>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="61"/>
-        <source>Encrypted text:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="27"/>
-        <source>Decrypted text:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="34"/>
-        <source>Encrypt</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/EncryptDecryptPage.qml" line="35"/>
-        <source>Decrypt</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>KeysGeneratePage</name>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/KeysGeneratePage.qml" line="36"/>
-        <source>Public key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/KeysGeneratePage.qml" line="46"/>
-        <source>Private key:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>LabledText</name>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/modules/LabledText.qml" line="13"/>
-        <source>Label</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LanguageSwitcher_my</name>
     <message>
         <location filename="../qml/components/forTerms/LanguageSwitcher_my.qml" line="23"/>
@@ -143,56 +30,56 @@
 <context>
     <name>Map_my</name>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="75"/>
-        <location filename="../qml/windows/Map_my.qml" line="79"/>
+        <location filename="../qml/windows/Map_my.qml" line="77"/>
+        <location filename="../qml/windows/Map_my.qml" line="81"/>
         <source> min</source>
         <translation> мин</translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="77"/>
+        <location filename="../qml/windows/Map_my.qml" line="79"/>
         <source> h</source>
         <translation> ч</translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="79"/>
+        <location filename="../qml/windows/Map_my.qml" line="81"/>
         <source> h  </source>
         <translation> ч  </translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="83"/>
+        <location filename="../qml/windows/Map_my.qml" line="85"/>
         <source> m</source>
         <translation> м</translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="85"/>
         <location filename="../qml/windows/Map_my.qml" line="87"/>
+        <location filename="../qml/windows/Map_my.qml" line="89"/>
         <source> km</source>
         <translation> км</translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="89"/>
         <location filename="../qml/windows/Map_my.qml" line="91"/>
+        <location filename="../qml/windows/Map_my.qml" line="93"/>
         <source>,  </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="106"/>
+        <location filename="../qml/windows/Map_my.qml" line="108"/>
         <source>no connection</source>
         <translation>нет соединения</translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="108"/>
-        <location filename="../qml/windows/Map_my.qml" line="119"/>
+        <location filename="../qml/windows/Map_my.qml" line="110"/>
+        <location filename="../qml/windows/Map_my.qml" line="121"/>
         <source>failed to load route</source>
         <translation>не удалось загрузить маршрут</translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="397"/>
+        <location filename="../qml/windows/Map_my.qml" line="399"/>
         <source>©</source>
         <translation>© Участники</translation>
     </message>
     <message>
-        <location filename="../qml/windows/Map_my.qml" line="397"/>
+        <location filename="../qml/windows/Map_my.qml" line="399"/>
         <source> contributors</source>
         <translation> </translation>
     </message>
@@ -241,6 +128,19 @@
     <message>
         <location filename="../qml/components/forOptionsMenu/OM_spinBox_my.qml" line="73"/>
         <source>+</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>OM_textInput_time_my</name>
+    <message>
+        <location filename="../qml/components/forOptionsMenu/OM_textInput_time_my.qml" line="84"/>
+        <source>AM</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/forOptionsMenu/OM_textInput_time_my.qml" line="85"/>
+        <source>PM</source>
         <translation></translation>
     </message>
 </context>
@@ -467,14 +367,6 @@
         <translation>Искать в радиусе</translation>
     </message>
     <message>
-        <source>Search radius</source>
-        <translation type="vanished">Радиус поиска</translation>
-    </message>
-    <message>
-        <source>Search within a radius</source>
-        <translation type="vanished">Искать в радиусе</translation>
-    </message>
-    <message>
         <location filename="../qml/components/forOptionsMenu/ObjectModel_page04_optionsMenu_my.qml" line="100"/>
         <source>m.</source>
         <translation>м.</translation>
@@ -482,10 +374,6 @@
 </context>
 <context>
     <name>Page01</name>
-    <message>
-        <source>For drivers:</source>
-        <translation type="vanished">Для водителей:</translation>
-    </message>
     <message>
         <location filename="../qml/pages/Page01.qml" line="51"/>
         <source>For drivers</source>
@@ -507,10 +395,6 @@
         <translation>Для пассажиров</translation>
     </message>
     <message>
-        <source>For passengers:</source>
-        <translation type="vanished">Для пассажиров:</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/Page01.qml" line="102"/>
         <source>Search for a driver</source>
         <translation>Искать водителя</translation>
@@ -530,11 +414,6 @@
     </message>
     <message>
         <location filename="../qml/pages/Page02.qml" line="34"/>
-        <source>Route</source>
-        <translation>Маршрут</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Page02.qml" line="34"/>
         <source>Route ready</source>
         <translation>Маршрут готов</translation>
     </message>
@@ -542,6 +421,11 @@
         <location filename="../qml/pages/Page02.qml" line="34"/>
         <source>Draw the route</source>
         <translation>Нарисуйте маршрут</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Page02.qml" line="34"/>
+        <source>Route</source>
+        <translation>Маршрут</translation>
     </message>
     <message>
         <location filename="../qml/pages/Page02.qml" line="54"/>
@@ -599,102 +483,98 @@
         <translation>Запланировать</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="128"/>
+        <location filename="../qml/pages/Page03.qml" line="136"/>
         <source>Failed to establish a connection to the server.</source>
         <translation>Не удалось установить соединение с сервером.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="130"/>
+        <location filename="../qml/pages/Page03.qml" line="138"/>
         <source>An error has occurred in the application.</source>
         <translation>Возникла ошибка в приложении.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="132"/>
+        <location filename="../qml/pages/Page03.qml" line="140"/>
         <source>An error occurred while sending data (large data size).</source>
         <translation>Возникла ошибка при отправке данных (большой размер данных).</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="136"/>
+        <location filename="../qml/pages/Page03.qml" line="144"/>
         <source>you cannot schedule more than 20 trips</source>
         <translation>нельзя запланировать больше 20 поездок</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="138"/>
+        <location filename="../qml/pages/Page03.qml" line="146"/>
         <source>time entered incorrectly</source>
         <translation>некорректно введено время</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="140"/>
+        <location filename="../qml/pages/Page03.qml" line="148"/>
         <source>the entered time has already passed</source>
         <translation>введённое время уже прошло</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="142"/>
+        <location filename="../qml/pages/Page03.qml" line="150"/>
         <source>time «from» must not be later than «to»</source>
         <translation>время «с» не должно быть позже чем «до»</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="144"/>
+        <location filename="../qml/pages/Page03.qml" line="152"/>
         <source>departure time must be within four days</source>
         <translation>время выезда должно быть в течении четырёх дней</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="146"/>
+        <location filename="../qml/pages/Page03.qml" line="154"/>
         <source>the number of empty seats must be between 1 and 200</source>
         <translation>количество свободных мест должно быть от 1 до 200</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="148"/>
+        <location filename="../qml/pages/Page03.qml" line="156"/>
         <source>comment text size should not exceed 1000 characters</source>
         <translation>размер текста комментария не должен превышать 1000 символов</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="150"/>
+        <location filename="../qml/pages/Page03.qml" line="158"/>
         <source>contact text size should not exceed 200 characters</source>
         <translation>размер текста контактов не должен превышать 200 символов</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="152"/>
+        <location filename="../qml/pages/Page03.qml" line="160"/>
         <source>fill in the «Contacts» field</source>
         <translation>заполните поле «Контакты»</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="154"/>
+        <location filename="../qml/pages/Page03.qml" line="162"/>
         <source>terms of use and privacy policy not accepted</source>
         <translation>не приняты условия использования и политика конфиденциальности</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="162"/>
+        <location filename="../qml/pages/Page03.qml" line="170"/>
         <source>An error occurred while connecting. Try again.</source>
         <translation>Возникла ошибка при подключении. Попробуйте снова.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page03.qml" line="164"/>
+        <location filename="../qml/pages/Page03.qml" line="172"/>
         <source>An error occurred while connecting (the allowed number of requests per day from your IP address has been exceeded).</source>
         <translation>Возникла ошибка при подключении (превышено допустимое количество запросов в день с вашего IP адреса).</translation>
     </message>
     <message>
-        <source>An error occurred while connecting. The allowed number of requests per day from your IP address has been exceeded.</source>
-        <translation type="vanished">Возникла ошибка при подключении. Превышено допустимое количество запросов в день с вашего IP адреса.</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Page03.qml" line="172"/>
-        <source>The allowed number of trip planning requests per day from your IP address has been exceeded.</source>
-        <translation>Превышено допустимое количество запросов в день на планирование поездки с вашего IP адреса.</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Page03.qml" line="168"/>
         <location filename="../qml/pages/Page03.qml" line="174"/>
-        <source>An error occurred while processing data on the server.</source>
-        <translation>Возникла ошибка при обработке данных на сервере.</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Page03.qml" line="166"/>
         <source>Your version of the app is no longer supported, please update the app.</source>
         <translation>Ваша версия приложения больше не поддерживается, пожалуйста обновите приложение.</translation>
     </message>
     <message>
         <location filename="../qml/pages/Page03.qml" line="176"/>
+        <location filename="../qml/pages/Page03.qml" line="182"/>
+        <source>An error occurred while processing data on the server.</source>
+        <translation>Возникла ошибка при обработке данных на сервере.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Page03.qml" line="180"/>
+        <source>The allowed number of trip planning requests per day from your IP address has been exceeded.</source>
+        <translation>Превышено допустимое количество запросов в день на планирование поездки с вашего IP адреса.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Page03.qml" line="184"/>
         <source>The trip has been created. An error occurred while saving data to the device memory. The next time you open the application, the trip will not be displayed, and it will not be possible to delete it. You can delete it now or it will be deleted after the expiration date.</source>
         <translation>Поездка создана. Возникла ошибка при сохранении данных в память устройства. При следующем запуске приложения поездка не будет отображена, также её нельзя будет удалить. Вы можете удалить её сейчас или она удалится после истечения срока действия.</translation>
     </message>
@@ -712,97 +592,77 @@
         <translation>Искать</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="126"/>
+        <location filename="../qml/pages/Page04.qml" line="134"/>
         <source>Failed to establish a connection to the server.</source>
         <translation>Не удалось установить соединение с сервером.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="128"/>
+        <location filename="../qml/pages/Page04.qml" line="136"/>
         <source>An error has occurred in the application.</source>
         <translation>Возникла ошибка в приложении.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="130"/>
+        <location filename="../qml/pages/Page04.qml" line="138"/>
         <source>An error occurred while sending data (large data size).</source>
         <translation>Возникла ошибка при отправке данных (большой размер данных).</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="134"/>
+        <location filename="../qml/pages/Page04.qml" line="142"/>
         <source>time entered incorrectly</source>
         <translation>некорректно введено время</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="136"/>
+        <location filename="../qml/pages/Page04.qml" line="144"/>
         <source>the entered time has already passed</source>
         <translation>введённое время уже прошло</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="138"/>
+        <location filename="../qml/pages/Page04.qml" line="146"/>
         <source>time «from» must not be later than «to»</source>
         <translation>время «с» не должно быть позже чем «до»</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="140"/>
+        <location filename="../qml/pages/Page04.qml" line="148"/>
         <source>departure time must be within four days</source>
         <translation>время выезда должно быть в течении четырёх дней</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="142"/>
+        <location filename="../qml/pages/Page04.qml" line="150"/>
         <source>the number of people must be from 1 to 200</source>
         <translation>количество человек должно быть от 1 до 200</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="144"/>
+        <location filename="../qml/pages/Page04.qml" line="152"/>
         <source>search radius should be from 10 to 1000 meters</source>
         <translation>радиус поиска должен быть от 10 до 1000 метров</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="146"/>
+        <location filename="../qml/pages/Page04.qml" line="154"/>
         <source>terms of use and privacy policy not accepted</source>
         <translation>не приняты условия использования и политика конфиденциальности</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="154"/>
+        <location filename="../qml/pages/Page04.qml" line="162"/>
         <source>An error occurred while connecting. Try again.</source>
         <translation>Возникла ошибка при подключении. Попробуйте снова.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="156"/>
+        <location filename="../qml/pages/Page04.qml" line="164"/>
         <source>An error occurred while connecting (the allowed number of requests per day from your IP address has been exceeded).</source>
         <translation>Возникла ошибка при подключении (превышено допустимое количество запросов в день с вашего IP адреса).</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="158"/>
+        <location filename="../qml/pages/Page04.qml" line="166"/>
         <source>Your version of the app is no longer supported, please update the app.</source>
         <translation>Ваша версия приложения больше не поддерживается, пожалуйста обновите приложение.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Page04.qml" line="160"/>
+        <location filename="../qml/pages/Page04.qml" line="168"/>
         <source>An error occurred while processing data on the server.</source>
         <translation>Возникла ошибка при обработке данных на сервере.</translation>
     </message>
     <message>
-        <source>An error occurred while connecting. The allowed number of requests per day from your IP address has been exceeded.</source>
-        <translation type="vanished">Возникла ошибка при подключении. Превышено допустимое количество запросов в день с вашего IP адреса.</translation>
-    </message>
-    <message>
-        <source>the number of empty seats must be between 1 and 200</source>
-        <translation type="obsolete">количество свободных мест должно быть от 1 до 200</translation>
-    </message>
-    <message>
-        <source>comment text size should not exceed 1000 characters</source>
-        <translation type="obsolete">размер текста комментария не должен превышать 1000 символов</translation>
-    </message>
-    <message>
-        <source>contact text size should not exceed 200 characters</source>
-        <translation type="obsolete">размер текста контактов не должен превышать 200 символов</translation>
-    </message>
-    <message>
-        <source>fill in the «Contacts» field</source>
-        <translation type="obsolete">заполните поле «Контакты»</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Page04.qml" line="164"/>
+        <location filename="../qml/pages/Page04.qml" line="172"/>
         <source>The allowed number of driver search requests per day from your IP address has been exceeded.</source>
         <translation>Превышено допустимое количество запросов в день на поиск водителей с вашего IP адреса.</translation>
     </message>
@@ -865,21 +725,9 @@
         <translation>Возникла ошибка при обработке данных на сервере.</translation>
     </message>
     <message>
-        <source>An error occurred while connecting. The allowed number of requests per day from your IP address has been exceeded.</source>
-        <translation type="vanished">Возникла ошибка при подключении. Превышено допустимое количество запросов в день с вашего IP адреса.</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/Page05.qml" line="211"/>
         <source>The allowed number of trip deletion requests per day from your IP address has been exceeded.</source>
         <translation>Превышено допустимое количество запросов в день на удаление поездки с вашего IP адреса.</translation>
-    </message>
-    <message>
-        <source>today</source>
-        <translation type="obsolete">сегодня</translation>
-    </message>
-    <message>
-        <source>tomorrow</source>
-        <translation type="obsolete">завтра</translation>
     </message>
 </context>
 <context>
@@ -903,19 +751,6 @@
         <location filename="../qml/components/forOptionsMenu/Row_page02_field3_my.qml" line="42"/>
         <source>Route</source>
         <translation>Маршрут</translation>
-    </message>
-</context>
-<context>
-    <name>RsaGenModule</name>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/modules/RsaGenModule.qml" line="22"/>
-        <source>RSA size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/modules/RsaGenModule.qml" line="36"/>
-        <source>Generate</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -955,82 +790,74 @@
         <source>An error occurred while processing data on the server.</source>
         <translation>Возникла ошибка при обработке данных на сервере.</translation>
     </message>
-    <message>
-        <source>An error occurred while connecting. The allowed number of requests per day from your IP address has been exceeded.</source>
-        <translation type="vanished">Возникла ошибка при подключении. Превышено допустимое количество запросов в день с вашего IP адреса.</translation>
-    </message>
 </context>
 <context>
     <name>TripsManager</name>
     <message>
-        <source>hello. i prov tr</source>
-        <translation type="vanished">привет. я пров тр</translation>
-    </message>
-    <message>
-        <location filename="../cpp/tripsmanager.cpp" line="134"/>
-        <location filename="../cpp/tripsmanager.cpp" line="201"/>
+        <location filename="../cpp/tripsmanager.cpp" line="149"/>
+        <location filename="../cpp/tripsmanager.cpp" line="216"/>
         <source>Contacts</source>
         <translation>Контакты</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="233"/>
-        <location filename="../cpp/tripsmanager.cpp" line="251"/>
+        <location filename="../cpp/tripsmanager.cpp" line="261"/>
+        <location filename="../cpp/tripsmanager.cpp" line="291"/>
         <source>today</source>
         <translation>сегодня</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="233"/>
-        <location filename="../cpp/tripsmanager.cpp" line="251"/>
+        <location filename="../cpp/tripsmanager.cpp" line="261"/>
+        <location filename="../cpp/tripsmanager.cpp" line="291"/>
         <source>tomorrow</source>
         <translation>завтра</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="253"/>
-        <source>Departure </source>
-        <translation>Выезд </translation>
+        <location filename="../cpp/tripsmanager.cpp" line="293"/>
+        <source>Departure</source>
+        <translation>Выезд</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="253"/>
-        <source>from </source>
-        <translation>с </translation>
+        <location filename="../cpp/tripsmanager.cpp" line="294"/>
+        <source>from</source>
+        <translation>с</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="253"/>
-        <source>at </source>
-        <translation>в </translation>
+        <location filename="../cpp/tripsmanager.cpp" line="295"/>
+        <source>at</source>
+        <translation>в</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="253"/>
-        <source>to </source>
-        <translation>до </translation>
+        <location filename="../cpp/tripsmanager.cpp" line="296"/>
+        <source>to</source>
+        <translation>до</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="256"/>
+        <location filename="../cpp/tripsmanager.cpp" line="325"/>
         <source> RUB</source>
         <translation> руб.</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="257"/>
+        <location filename="../cpp/tripsmanager.cpp" line="326"/>
         <source> BYN</source>
         <translation> бел. руб.</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="258"/>
+        <location filename="../cpp/tripsmanager.cpp" line="327"/>
         <source> UAH</source>
         <translation> грн.</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="259"/>
+        <location filename="../cpp/tripsmanager.cpp" line="328"/>
         <source> KZT</source>
         <translation> тенге</translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="260"/>
+        <location filename="../cpp/tripsmanager.cpp" line="329"/>
         <source>$</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../cpp/tripsmanager.cpp" line="261"/>
+        <location filename="../cpp/tripsmanager.cpp" line="330"/>
         <source>€</source>
         <translation></translation>
     </message>
@@ -1054,26 +881,6 @@
         <location filename="../qml/main.qml" line="219"/>
         <source>OK</source>
         <translation>ОК</translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/main.qml" line="18"/>
-        <source>Qt-Secret-GUI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/main.qml" line="51"/>
-        <source>Keys generate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/main.qml" line="54"/>
-        <source>Encryption and decryption</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../lib/Qt-Secret/Qt-Secret-GUI/main.qml" line="57"/>
-        <source>Digital signature</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

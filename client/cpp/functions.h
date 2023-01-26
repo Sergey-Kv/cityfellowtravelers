@@ -26,12 +26,15 @@ public:
     Q_INVOKABLE static double polylineLengthInMeters(const QList<QGeoCoordinate> &polyline);
     Q_INVOKABLE void compressRouteFromInternet(const QGeoCoordinate &coordA, const QGeoCoordinate &coordB, const QList<QGeoCoordinate> &path);
     Q_INVOKABLE void getDateAndTimeForExtraOpt();
-    static quint32 localDateAndTimeStrToMinSinceEpoch(const QString &timeStr, int day, int month, int year);
+    static QString createStrDate(int day, int month, int year);
+    static quint32 localDateAndTimeStrToMinSinceEpoch(const QString &timeStr, bool isTimeAmOrPm, int day, int month, int year);
+
+    static bool is24HourFormat;
 
 signals:
     void changeMapPosition(const QGeoCoordinate &mapCenter_fq, double mapZoomLevel_fq);
     void putTheRouteInTemporaryStorage(const QList<QGeoCoordinate> &route_fq);
-    void updateDateAndTimeForExtraOpt(const QString &fromCheckOutTime_fq, const QString &toCheckOutTime_fq, int day1_fq, int day2_fq, int day3_fq, int day4_fq, int month1_fq, int month2_fq, int month3_fq, int month4_fq, int year1_fq, int year2_fq, int year3_fq, int year4_fq, const QString &datePlus2Days_fq, const QString &datePlus3Days_fq, bool withTransition_fq);
+    void updateDateAndTimeForExtraOpt(bool is24HourFormat_fq, const QString &fromCheckOutTime_fq, bool isFromTimeAmOrPm_fq, const QString &toCheckOutTime_fq, bool isToTimeAmOrPm_fq, int day1_fq, int day2_fq, int day3_fq, int day4_fq, int month1_fq, int month2_fq, int month3_fq, int month4_fq, int year1_fq, int year2_fq, int year3_fq, int year4_fq, const QString &datePlus2Days_fq, const QString &datePlus3Days_fq, bool withTransition_fq);
 };
 
 #endif // FUNCTIONS_H

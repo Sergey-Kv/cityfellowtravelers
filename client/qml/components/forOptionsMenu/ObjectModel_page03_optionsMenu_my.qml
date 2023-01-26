@@ -88,7 +88,7 @@ ObjectModel {
                         ListElement { currencyNumber: 398; mainText: qsTr("KZT", "mainText"); menuText: qsTr("KZT", "menuText"); validatorMode: 1 } //"тенге" //"тенге"
                         ListElement { currencyNumber: 840; mainText: qsTr("$"); menuText: qsTr("dollar"); validatorMode: 2 } // //"доллар"
                         ListElement { currencyNumber: 978; mainText: qsTr("€"); menuText: qsTr("euro"); validatorMode: 2 } // //"евро"
-                        ListElement { currencyNumber: 0; mainText: " "; menuText: qsTr("other currency"); validatorMode: 0 } //другая валюта
+                        ListElement { currencyNumber: 0; mainText: " "; menuText: qsTr("other currency"); validatorMode: 0 } //"другая валюта"
                     }
                     ListModel {
                         id: model_om_currencies_default
@@ -142,6 +142,8 @@ ObjectModel {
     Item { z: 1; width: page3_optionsMenu.width; height: pr.sectionHeadingTopMargin }
     function hideAllMenus() {
         children[0].children[1].children[0].children[0].isDropdownMenuOpen = false
+        children[0].children[1].children[0].children[1].isDropdownMenuOpen = false
+        children[0].children[2].children[0].children[1].isDropdownMenuOpen = false
         children[0].children[1].children[1].isDropdownMenuOpen = false
         children[0].children[2].children[1].isDropdownMenuOpen = false
         children[2].children[1].children[0].children[1].isDropdownMenuOpen = false

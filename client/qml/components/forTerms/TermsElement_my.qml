@@ -10,11 +10,12 @@ Item {
     MouAreaWSCH {
         id: header
         width: parent.width
-        height: 10 + children[0].height + 10
+        height: 10 + textForHeader.height + 10
         leftProcessing: true
         rightProcessing: true
         onClicked: isOpen = !isOpen
         Text_standard_my {
+            id: textForHeader
             anchors.centerIn: parent
             width: parent.width - (arrowForTermsElement.anchors.rightMargin + arrowForTermsElement.width + 10) * 2
             text: loaderOfAdditComp_my.item.loaderOfTerms_my.item.listViewForTerms.model.get(0).children[0].engOrRus ? (isThisTermsOrPolicy ? loaderOfAdditComp_my.item.loaderOfTerms_my.item.touHeader_en : loaderOfAdditComp_my.item.loaderOfTerms_my.item.ppHeader_en) : (isThisTermsOrPolicy ? loaderOfAdditComp_my.item.loaderOfTerms_my.item.touHeader_ru : loaderOfAdditComp_my.item.loaderOfTerms_my.item.ppHeader_ru)
@@ -55,8 +56,9 @@ Item {
         visible: isOpen
         anchors.top: header.bottom
         width: parent.width
-        height: children[0].y + children[0].height + children[0].y
+        height: textForDescription.y + textForDescription.height + textForDescription.y
         Text_standard_my {
+            id: textForDescription
             x: 10
             y: 10
             width: parent.width - x * 2

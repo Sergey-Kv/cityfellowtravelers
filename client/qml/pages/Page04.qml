@@ -73,11 +73,13 @@ Rectangle {
             scm.searchForADriverRequest(QtPositioning.coordinate(pr.savedMapMarkABLocToRetFromP5AndForSeaForADrReq[0], pr.savedMapMarkABLocToRetFromP5AndForSeaForADrReq[1]), //markerA
                         QtPositioning.coordinate(pr.savedMapMarkABLocToRetFromP5AndForSeaForADrReq[2], pr.savedMapMarkABLocToRetFromP5AndForSeaForADrReq[3]), //markerB
                         page4_optionsMenu.model.get(0).children[1].children[0].children[1].text, //fromDepatrureTimeStr
+                        page4_optionsMenu.model.get(0).children[1].children[0].children[1].activeMenuPoint == 0, //isFromTimeAmOrPm
                         page4_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(fromDepDateActMenuPoi).day, //fromDepDateDay
                         page4_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(fromDepDateActMenuPoi).month, //fromDepDateMonth
                         page4_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(fromDepDateActMenuPoi).year, //fromDepDateYear
                         page4_optionsMenu.model.get(0).children[1].children[0].children[0].activeMenuPoint == 1, //withToDepT
                         page4_optionsMenu.model.get(0).children[2].children[0].children[1].text, //toDepatrureTimeStr
+                        page4_optionsMenu.model.get(0).children[2].children[0].children[1].activeMenuPoint == 0, //isToTimeAmOrPm
                         page4_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(toDepDateActMenuPoi).day, //toDepDateDay
                         page4_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(toDepDateActMenuPoi).month, //toDepDateMonth
                         page4_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(toDepDateActMenuPoi).year, //toDepDateYear
@@ -88,7 +90,13 @@ Rectangle {
     }
     Connections {
         target: fnc
-        function onUpdateDateAndTimeForExtraOpt(fromCheckOutTime_fq, toCheckOutTime_fq, day1_fq, day2_fq, day3_fq, day4_fq, month1_fq, month2_fq, month3_fq, month4_fq, year1_fq, year2_fq, year3_fq, year4_fq, datePlus2Days_fq, datePlus3Days_fq, withTransition_fq) {
+        function onUpdateDateAndTimeForExtraOpt(is24HourFormat_fq, fromCheckOutTime_fq, isFromTimeAmOrPm_fq, toCheckOutTime_fq, isToTimeAmOrPm_fq, day1_fq, day2_fq, day3_fq, day4_fq, month1_fq, month2_fq, month3_fq, month4_fq, year1_fq, year2_fq, year3_fq, year4_fq, datePlus2Days_fq, datePlus3Days_fq, withTransition_fq) {
+            if(!is24HourFormat_fq) {
+                page4_optionsMenu.model.get(0).children[1].children[0].children[1].activeMenuPoint = isFromTimeAmOrPm_fq ? 0 : 1
+                page4_optionsMenu.model.get(0).children[2].children[0].children[1].activeMenuPoint = isToTimeAmOrPm_fq ? 0 : 1
+                page4_optionsMenu.model.get(0).children[1].children[0].children[1].is24HourFormat = false
+                page4_optionsMenu.model.get(0).children[2].children[0].children[1].is24HourFormat = false
+            }
             page4_optionsMenu.model.get(0).children[1].children[0].children[1].text = fromCheckOutTime_fq
             page4_optionsMenu.model.get(0).children[2].children[0].children[1].text = toCheckOutTime_fq
             page4_optionsMenu.model.get(0).children[1].children[1].comboBoxModel.get(0).day = day1_fq

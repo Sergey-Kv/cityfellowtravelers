@@ -3,6 +3,7 @@
 #include <QStandardPaths>
 #include <QDateTime>
 #include <QDir>
+#include "functions.h"
 #include <QLocale>
 
 TripsManager::TripsManager(QObject *parent)
@@ -21,13 +22,21 @@ void TripsManager::loadMyTripsFromFiles()
     tripsDir.setSorting(QDir::Name);
     QStringList tripsFileNamesList = tripsDir.entryList();
     myTrip tripData;
+    quint16 routeCoordNumber;
+    coord temp;
     quint32 howManyMinSinceEpochWasAMonthAgo = QDateTime::currentSecsSinceEpoch() / 60 - 1440 * 30;
     for(QStringList::const_iterator i = tripsFileNamesList.constBegin(); i != tripsFileNamesList.constEnd(); ++i) {
         QFile fileObj(pathToAppDataLocation + "/v100/myTrips/" + *i);
         if(fileObj.open(QIODevice::ReadOnly)) {
             QDataStream inOfFileObj(&fileObj);
             inOfFileObj.setVersion(QDataStream::Qt_5_15);
-            inOfFileObj >> tripData.tripId >> tripData.deleteCode >> tripData.route >> tripData.fromDepartureTime >> tripData.toDepartureTime >> tripData.emptySeats >> tripData.currencyNumber >> tripData.estimatedPrice >> tripData.comment >> tripData.name >> tripData.contacts;
+            inOfFileObj >> tripData.tripId >> tripData.deleteCode >> routeCoordNumber;
+            tripData.route.clear();
+            for(unsigned int i = 0; i < routeCoordNumber; ++i) {
+                inOfFileObj >> temp.latit >> temp.longit;
+                tripData.route.append(QGeoCoordinate(static_cast<double>(temp.latit) / 10000000.0, static_cast<double>(temp.longit) / 10000000.0));
+            }
+            inOfFileObj >> tripData.fromDepartureTime >> tripData.toDepartureTime >> tripData.emptySeats >> tripData.currencyNumber >> tripData.estimatedPrice >> tripData.comment >> tripData.name >> tripData.contacts;
             if(tripData.toDepartureTime < howManyMinSinceEpochWasAMonthAgo)
                 continue;
             tripData.fileName = *i;
@@ -53,11 +62,14 @@ bool TripsManager::addTheTripToMyTrips(QDataStream &inOfServerDataBlock)
     myTrip tripData;
     quint16 routeCoordNumber;
     coord temp;
+    QVector<coord> tempRoute;
+    tempRoute.reserve(routeCoordNumber);
     inOfServerDataBlock >> tripData.tripId
             >> tripData.deleteCode
             >> routeCoordNumber;
     for(unsigned int i = 0; i < routeCoordNumber; ++i) {
         inOfServerDataBlock >> temp.latit >> temp.longit;
+        tempRoute.append(coord(temp.latit, temp.longit));
         tripData.route.append(QGeoCoordinate(static_cast<double>(temp.latit) / 10000000.0, static_cast<double>(temp.longit) / 10000000.0));
     }
     inOfServerDataBlock >> tripData.fromDepartureTime >> tripData.toDepartureTime
@@ -76,7 +88,10 @@ bool TripsManager::addTheTripToMyTrips(QDataStream &inOfServerDataBlock)
     if(fileOpened) {
         QDataStream outOfFileObj(&fileObj);
         outOfFileObj.setVersion(QDataStream::Qt_5_15);
-        outOfFileObj << tripData.tripId << tripData.deleteCode << tripData.route << tripData.fromDepartureTime << tripData.toDepartureTime << tripData.emptySeats << tripData.currencyNumber << tripData.estimatedPrice << tripData.comment << tripData.name << tripData.contacts;
+        outOfFileObj << tripData.tripId << tripData.deleteCode << routeCoordNumber;
+        for(QVector<coord>::const_iterator it = tempRoute.constBegin(); it != tempRoute.constEnd(); ++it)
+            outOfFileObj << it->latit << it->longit;
+        outOfFileObj << tripData.fromDepartureTime << tripData.toDepartureTime << tripData.emptySeats << tripData.currencyNumber << tripData.estimatedPrice << tripData.comment << tripData.name << tripData.contacts;
     }
     fileObj.close();
     myTrips.prepend(tripData);
@@ -227,10 +242,23 @@ QString TripsManager::generateTextForTripElement(const T &trip, const QDate &cur
     int fromDay = fromDt.date().day();
     int fromHour = fromDt.time().hour();
     int fromMinute = fromDt.time().minute();
-    QString fromTimeStr = QString::number(fromHour) + ":" + intToTwoCharQString(fromMinute) + " ";
+    bool isFromTimeAmOrPm;
+    QString fromTimeStr;
+    if(!Functions::is24HourFormat) {
+        isFromTimeAmOrPm = fromHour < 12;
+        if(!isFromTimeAmOrPm)
+            fromHour -= 12;
+    }
+    fromTimeStr = QString::number(fromHour) + ":" + intToTwoCharQString(fromMinute);
+    if(!Functions::is24HourFormat) {
+        if(isFromTimeAmOrPm)
+            fromTimeStr += " AM";
+        else
+            fromTimeStr += " PM";
+    }
     bool fromIsToday = fromDay == currDay && fromMonth == currMonth && fromYear == currYear;
     bool fromIsTomorrow = fromDay == tomoDay && fromMonth == tomoMonth && fromYear == tomoYear;
-    QString fromDateStr = (fromIsToday ? tr("today") : fromIsTomorrow ? tr("tomorrow") : intToTwoCharQString(fromDay) + "." + intToTwoCharQString(fromMonth) + "." + QString::number(fromYear)) + " "; //"сегодня" //"завтра"
+    QString fromDateStr = (fromIsToday ? tr("today") : fromIsTomorrow ? tr("tomorrow") : Functions::createStrDate(fromDay, fromMonth, fromYear)); //"сегодня" //"завтра"
     bool withTo = trip.fromDepartureTime != trip.toDepartureTime;
     bool sameDay;
     QString toTimeStr;
@@ -244,13 +272,54 @@ QString TripsManager::generateTextForTripElement(const T &trip, const QDate &cur
         int toDay = toDt.date().day();
         int toHour = toDt.time().hour();
         int toMinute = toDt.time().minute();
+        bool isToTimeAmOrPm;
+        if(!Functions::is24HourFormat) {
+            isToTimeAmOrPm = toHour < 12;
+            if(!isToTimeAmOrPm)
+                toHour -= 12;
+        }
+        toTimeStr = QString::number(toHour) + ":" + intToTwoCharQString(toMinute);
+        if(!Functions::is24HourFormat) {
+            if(isToTimeAmOrPm)
+                toTimeStr += " AM";
+            else
+                toTimeStr += " PM";
+        }
         sameDay = fromDay == toDay && fromMonth == toMonth && fromYear == toYear;
-        toTimeStr = QString::number(toHour) + ":" + intToTwoCharQString(toMinute) + " ";
         toIsToday = toDay == currDay && toMonth == currMonth && toYear == currYear;
         toIsTomorrow = toDay == tomoDay && toMonth == tomoMonth && toYear == tomoYear;
-        toDateStr = (toIsToday ? tr("today") : toIsTomorrow ? tr("tomorrow") : intToTwoCharQString(toDay) + "." + intToTwoCharQString(toMonth) + "." + QString::number(toYear)) + " "; //"сегодня" //"завтра"
+        toDateStr = (toIsToday ? tr("today") : toIsTomorrow ? tr("tomorrow") : Functions::createStrDate(toDay, toMonth, toYear)); //"сегодня" //"завтра"
     }
-    textForTripElement += tr("Departure ") + (withTo ? tr("from ") : tr("at ")) + fromTimeStr + (withTo ? (sameDay ? "" : fromDateStr) + tr("to ") + toTimeStr + toDateStr : fromDateStr) + "\n"; //"Выезд " //"с " //"в " //"до "
+    QString departureText = tr("Departure"); //"Выезд"
+    QString fromText = tr("from"); //"с"
+    QString atText = tr("at"); //"в"
+    QString toText = tr("to"); //"до"
+    textForTripElement += departureText + " ";
+    QVector<boolAndQStringPointer> objects;
+    objects.reserve(6);
+    if(withTo)
+        objects.append(boolAndQStringPointer(false, &fromText));
+    else
+        objects.append(boolAndQStringPointer(false, &atText));
+    objects.append(boolAndQStringPointer(!Functions::is24HourFormat, &fromTimeStr));
+    if(withTo) {
+        if(!sameDay)
+            objects.append(boolAndQStringPointer(!(fromIsToday || fromIsTomorrow), &fromDateStr));
+        objects.append(boolAndQStringPointer(false, &toText));
+        objects.append(boolAndQStringPointer(!Functions::is24HourFormat, &toTimeStr));
+        objects.append(boolAndQStringPointer(!(toIsToday || toIsTomorrow), &toDateStr));
+    }
+    else
+        objects.append(boolAndQStringPointer(!(fromIsToday || fromIsTomorrow), &fromDateStr));
+    textForTripElement += *(objects.at(0).objectPointer);
+    for(int i = 1; i < objects.size(); ++i) {
+        if(objects.at(i).objectWithSpaces || objects.at(i-1).objectWithSpaces)
+            textForTripElement += "  ";
+        else
+            textForTripElement += " ";
+        textForTripElement += *(objects.at(i).objectPointer);
+    }
+    textForTripElement += "\n";
 
     QString currencyStr;
     if(trip.currencyNumber == 643) currencyStr = tr(" RUB"); //" руб."
@@ -285,3 +354,5 @@ QString TripsManager::generateTextForTripElement(const T &trip, const QDate &cur
 QString TripsManager::intToTwoCharQString(int number) {
     return number < 10 ? "0" + QString::number(number) : QString::number(number);
 }
+
+TripsManager::boolAndQStringPointer::boolAndQStringPointer(bool objectWithSpaces, QString *objectPointer) : objectWithSpaces(objectWithSpaces), objectPointer(objectPointer) {}
